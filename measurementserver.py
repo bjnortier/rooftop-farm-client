@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import zmq
-import random
 import sys
 import time
 import sqlite3 as lite
