@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import zmq
 import random
 import sys
@@ -9,7 +12,11 @@ def connect_and_push():
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:%s" % port)
     while True:
-        socket.send_json({'type': 'moisture', 'value': 78.0})
+        socket.send_json({
+            'type': 'moisture',
+            'timestamp': time.time(),
+            'data': '{"value": 78.0}"'
+        })
         msg = socket.recv()
         print('.', end='')
         sys.stdout.flush()
