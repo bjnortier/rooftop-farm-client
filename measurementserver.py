@@ -18,8 +18,8 @@ try:
     cur.execute("""
         CREATE TABLE IF NOT EXISTS `measurements` (
         `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-        `timestamp` DATETIME NOT NULL,
         `type` VARCHAR(255),
+        `timestamp` DATETIME NOT NULL,
         `data` VARCHAR(2048) NOT NULL)
     """)
     data = cur.fetchone()

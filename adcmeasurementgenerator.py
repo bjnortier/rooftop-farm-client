@@ -26,9 +26,12 @@ def read_channels():
             config = CONFIG[channel]
             value = read_channel(channel)
             result[config['id']] = {
+                'id': config['id'],
                 'type': config['type'],
                 'timestamp': time.time(),
-                'value': value
+                'data': {
+                    'value': value,
+                }
             }
     return result
 
@@ -41,7 +44,7 @@ def connect_and_push():
     while True:
         socket.send_json(read_channels)
         msg = socket.recv()
-        print('.', end='')
+        print('.')
         sys.stdout.flush()
         time.sleep(1)
 
