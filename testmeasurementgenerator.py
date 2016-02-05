@@ -5,6 +5,7 @@ import zmq
 import sys
 import time
 
+
 def connect_and_push():
     port = "5556"
     context = zmq.Context()
@@ -23,7 +24,7 @@ def connect_and_push():
 
 while True:
     try:
-        time.sleep(1);
+        time.sleep(1)
         connect_and_push()
     except zmq.error.ZMQError as e:
         print(e)

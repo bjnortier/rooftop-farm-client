@@ -12,7 +12,8 @@ try:
     cur = con.cursor()
 
     while True:
-        cur.execute('SELECT id, type, timestamp, data FROM measurements LIMIT 50')
+        cur.execute(
+            'SELECT id, type, timestamp, data FROM measurements LIMIT 50')
         rows = cur.fetchall()
 
         payload = list(map(lambda x: {
@@ -21,12 +22,14 @@ try:
             'data': x[3],
         }, rows))
         print(payload)
-        r = requests.post('http://localhost:3000/api/measurements', json=payload)
+        r = requests.post(
+            'http://localhost:3000/api/measurements', json=payload)
         print(r)
 
         ids = list(map(lambda x: str(x[0]), rows))
         print(ids)
-        cur.execute('DELETE FROM measurements WHERE id in (' + ','.join(ids) + ')');
+        cur.execute(
+            'DELETE FROM measurements WHERE id in (' + ','.join(ids) + ')')
         con.commit()
 
         time.sleep(5)
