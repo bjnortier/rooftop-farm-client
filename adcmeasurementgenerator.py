@@ -32,7 +32,22 @@ def read_channels():
             }
     return result
 
+
+def connect_and_push():
+    port = "5556"
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:%s" % port)
+    while True:
+        socket.send_json(read_channels)
+        msg = socket.recv()
+        print('.', end='')
+        sys.stdout.flush()
+        time.sleep(1)
+
 while True:
-    result = read_channels()
-    print(result)
-    time.sleep(1)
+    try:
+        time.sleep(1)
+        connect_and_push()
+    except zmq.error.ZMQError as e:
+        print(e)
