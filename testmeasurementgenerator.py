@@ -12,11 +12,16 @@ def connect_and_push():
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:%s" % port)
     while True:
-        socket.send_json({
-            'type': 'moisture',
-            'timestamp': time.time(),
-            'data': '{"value": 78.0}"'
-        })
+        result = {
+            'sensor_0': {
+                'type': 'MOISTURE',
+                'timestamp': time.time() * 1000,  # 1970 ms
+                'data': {
+                    'value': 78.0
+                },
+            }
+        }
+        socket.send_json(result)
         msg = socket.recv()
         print('.', end='')
         sys.stdout.flush()

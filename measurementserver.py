@@ -18,6 +18,7 @@ try:
     cur.execute("""
         CREATE TABLE IF NOT EXISTS `measurements` (
         `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+        `sensor_id` VARCHAR(255),
         `type` VARCHAR(255),
         `timestamp` DATETIME NOT NULL,
         `data` VARCHAR(2048) NOT NULL)
@@ -26,15 +27,19 @@ try:
 
     while True:
         msg = socket.recv_json()
-        print(msg)
-        measurement = (msg['timestamp'], msg['type'], msg['data'])
-        cur.execute("""
-            INSERT INTO `measurements`
-            (`id`, `timestamp`, `type`, `data`)
-            VALUES
-            (NULL, ?, ?, ?)
-        """, measurement)
-        con.commit()
+        for sensor_id in msg:
+            m1 = msg[sensor_id]
+            m2 = (
+                sensor_id, m1['timestamp'], m1['type'], json.dumps(m1['data'])
+            )
+            print(m2)
+            cur.execute("""
+                INSERT INTO `measurements`
+                (`id`, `sensor_id`, `timestamp`, `type`, `data`)
+                VALUES
+                (NULL, ?, ?, ?, ?)
+            """, m2)
+            con.commit()
         socket.send_string('ACK')
 
 except lite.Error as e:

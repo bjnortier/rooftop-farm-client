@@ -26,9 +26,9 @@ def read_channels():
             config = CONFIG[channel]
             value = read_channel(channel)
             result[config['id']] = {
-                'id': config['id'],
+                'sensor_id': config['id'],
                 'type': config['type'],
-                'timestamp': time.time(),
+                'timestamp': time.time() * 1000,  # 1970 ms
                 'data': {
                     'value': value,
                 }
@@ -49,8 +49,5 @@ def connect_and_push():
         time.sleep(1)
 
 while True:
-    try:
-        time.sleep(1)
-        connect_and_push()
-    except zmq.error.ZMQError as e:
-        print(e)
+    time.sleep(1)
+    connect_and_push()
