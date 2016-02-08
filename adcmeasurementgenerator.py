@@ -1,3 +1,5 @@
+import sys
+import zmq
 import spidev
 import time
 import os
@@ -42,9 +44,9 @@ def connect_and_push():
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:%s" % port)
     while True:
-        socket.send_json(read_channels)
+        socket.send_json(read_channels())
         msg = socket.recv()
-        print('.')
+        print('.', end='')
         sys.stdout.flush()
         time.sleep(1)
 
