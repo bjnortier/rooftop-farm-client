@@ -8,9 +8,12 @@ import sqlite3 as lite
 import json
 import requests
 
+
 def post_payload(payload):
     try:
-        r = requests.post(os.environ['POST_URL'], json=payload)
+        r = requests.post(
+            os.environ['POST_API_URL'] + '/measurements',
+            json=payload)
         print(r)
         if r.status_code == 201:
             delete_ids(ids)
