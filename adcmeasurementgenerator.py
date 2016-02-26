@@ -10,7 +10,15 @@ spi.open(0, 0)
 CONFIG = {
     0: {
         'type': 'MOISTURE',
-        'id': 'moist_a',
+        'id': 'moist_0',
+    },
+    1: {
+        'type': 'MOISTURE',
+        'id': 'moist_1',
+    },
+    2: {
+        'type': 'MOISTURE',
+        'id': 'moist_2',
     }
 }
 
@@ -18,7 +26,7 @@ CONFIG = {
 def read_channel(channel):
     adc = spi.xfer2([1, (8+channel) << 4, 0])
     data = ((adc[1] & 3) << 8) + adc[2]
-    return data/1013
+    return data/1023
 
 
 def read_channels():
@@ -48,7 +56,7 @@ def connect_and_push():
         msg = socket.recv()
         print('.', end='')
         sys.stdout.flush()
-        time.sleep(1)
+        time.sleep(60)
 
 while True:
     time.sleep(1)
