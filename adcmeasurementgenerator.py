@@ -8,15 +8,15 @@ spi = spidev.SpiDev()
 spi.open(0, 0)
 
 CONFIG = {
-    0: {
+    6: {
         'type': 'MOISTURE',
         'id': 'moist_0',
     },
-    1: {
+    7: {
         'type': 'MOISTURE',
         'id': 'moist_1',
     },
-    2: {
+    8: {
         'type': 'MOISTURE',
         'id': 'moist_2',
     }
